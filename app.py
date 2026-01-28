@@ -1,15 +1,8 @@
 import random
 import streamlit as st
-from logic_utils import check_guess
+from logic_utils import check_guess, get_range_for_difficulty
 
-def get_range_for_difficulty(difficulty: str):
-    if difficulty == "Easy":
-        return 1, 20
-    if difficulty == "Normal":
-        return 1, 100
-    if difficulty == "Hard":
-        return 1, 50
-    return 1, 100
+# Removed get_range_for_difficulty from here - now imported from logic_utils
 
 
 def parse_guess(raw: str):
@@ -72,6 +65,19 @@ low, high = get_range_for_difficulty(difficulty)
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
+# FIX: Track difficulty in session state to detect changes
+# When difficulty changes, regenerate secret within new range
+# AI COLLABORATION: Refactored difficulty logic using Copilot Agent mode
+if "difficulty" not in st.session_state:
+    st.session_state.difficulty = difficulty
+
+if st.session_state.difficulty != difficulty:
+    # Difficulty has changed - regenerate secret in new range
+    st.session_state.difficulty = difficulty
+    st.session_state.secret = random.randint(low, high)
+    st.session_state.attempts = 1
+    st.session_state.history = []
+
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
@@ -89,8 +95,10 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
+# FIX: Use dynamic range from difficulty instead of hardcoded "1 and 100"
+# This ensures the displayed range matches the selected difficulty
 st.info(
-    f"Guess a number between 1 and 100. "
+    f"Guess a number between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
