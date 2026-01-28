@@ -4,15 +4,12 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 
 ## 1. What was broken when you started?
 
-- What did the game look like the first time you ran it?
-- List at least two concrete bugs you noticed at the start  
-  (for example: "the secret number kept changing" or "the hints were backwards").
+When I first ran the game, several core features were broken. Pressing Enter to submit a guess did not work, even though the game instructed the user to press Enter, so I had to click the button manually. The hint system was also incorrect when compared to the actual secret number, and no warning appeared when I entered numbers outside the allowed range. Changing the difficulty did not update the secret number or the displayed guess range, and the New Game button did not fully reset the game, preventing new guesses. 
 
----
 
 ## 2. How did you use AI as a teammate?
 
-- Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
+I use github copilot only for this.
 - Give one example of an AI suggestion you accepted and why.
 - Give one example of an AI suggestion you changed or rejected and why.
 
