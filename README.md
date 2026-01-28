@@ -25,4 +25,4 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📸 Demo
 
-[Insert screenshot of your fixed, winning game here]
+![alt text](image.png)
