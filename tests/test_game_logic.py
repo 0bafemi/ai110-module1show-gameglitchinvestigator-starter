@@ -1,6 +1,6 @@
 from logic_utils import check_guess 
 from logic_utils import parse_guess
-
+from logic_utils import update_score
 def test_winning_guess():
     # If the secret is 50 and guess is 50, it should be a win
     outcome, message = check_guess(50, 50)
@@ -37,3 +37,26 @@ def test_guess_within_range():
     assert ok == True
     assert guess == 10
     assert err == None
+
+def test_winning_score_first_attempt():
+    """Test that winning on first attempt awards maximum points"""
+    score = update_score(0, "Win", 1)
+    # 100 - 10 * (1 + 1) = 100 - 20 = 80
+    assert score == 80
+
+def test_winning_score_many_attempts():
+    """Test that winning after many attempts awards minimum points"""
+    score = update_score(0, "Win", 10)
+    # 100 - 10 * (10 + 1) = 100 - 110 = -10, but minimum is 10
+    assert score == 10
+
+def test_wrong_guess_always_loses_points():
+    """Test that wrong guesses always lose 5 points"""
+    score_high = update_score(100, "Too High", 2)
+    score_low = update_score(100, "Too Low", 2)
+    score_high_odd = update_score(100, "Too High", 3)
+    
+    # All should lose 5 points regardless of attempt number
+    assert score_high == 95
+    assert score_low == 95
+    assert score_high_odd == 95
